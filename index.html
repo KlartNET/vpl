@@ -35,7 +35,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* 고대비 하이엔드 배경 캔버스 */
         #bg-canvas {
             position: fixed;
             top: 0;
@@ -46,7 +45,6 @@
             z-index: 1;
         }
 
-        /* Top Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -292,7 +290,7 @@
 
         .compare-item {
             display: grid;
-            grid-template-columns: 280px 1fr 140px;
+            grid-template-columns: 320px 1fr 140px;
             align-items: center;
             gap: 2rem;
         }
@@ -417,14 +415,14 @@
 
         <section class="benchmark">
             <div class="section-header reveal">
-                <h2 class="section-title">Multi-Genre Performance Matrix</h2>
-                <p class="section-subtitle">컴퓨트 엔지니어링, 클라우드 가상화 및 개발 생산성 관점의 다각도 벤치마크</p>
+                <h2 class="section-title">Technical Performance Metrics</h2>
+                <p class="section-subtitle">컴퓨트 엔지니어링, 인프라 가상화 및 내부 시스템 복잡도 관점의 정량 벤치마크</p>
             </div>
 
-            <div class="dashboard reveal" id="perf-dashboard-trigger">
+            <div class="dashboard reveal">
                 <div class="metric-panel">
                     <div class="metric-info">
-                        <span class="metric-title">Genre 01 / 하드웨어 연산 및 메모리 점유율</span>
+                        <span class="metric-title">01 / 하드웨어 연산 및 메모리 점유율</span>
                         <span class="metric-desc">프로세스 구동 단계 및 유저 세션 폭증 시 할당되는 런타임 메모리 크기</span>
                     </div>
                     <div class="compare-list">
@@ -443,7 +441,7 @@
 
                 <div class="metric-panel">
                     <div class="metric-info">
-                        <span class="metric-title">Genre 02 / 클라우드 인프라 배포 오버헤드</span>
+                        <span class="metric-title">02 / 클라우드 인프라 배포 오버헤드</span>
                         <span class="metric-desc">가상화 컨테이너 빌드 및 오케스트레이션 구동 시 발생하는 콜드 스타트 지연 시간</span>
                     </div>
                     <div class="compare-list">
@@ -459,36 +457,74 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">03 / 시스템 구조적 복잡도 및 기술 부채 비율</span>
+                        <span class="metric-desc">제품 확장 및 장기 운영에 따라 소스 코드 라인 비례 누적되는 아키텍처 결함 위험도</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">Legacy Enterprise Component</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="90%"></div></div>
+                            <span class="item-value">High Risk (78%)</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 Core Engine</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0.00%</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
         <section class="benchmark">
             <div class="section-header reveal">
-                <h2 class="section-title">Compliance & Risk Benchmark</h2>
-                <p class="section-subtitle">엔터프라이즈 인프라 환경 도입 시 검토되는 정량적 리스크 분석 결과</p>
+                <h2 class="section-title">Compliance & Risk Assessment</h2>
+                <p class="section-subtitle">엔터프라이즈 프로덕션 환경 도입 시 검토되는 법무 및 공급망 보안 정량 분석</p>
             </div>
 
-            <div class="dashboard reveal" id="compliance-dashboard-trigger">
+            <div class="dashboard reveal">
                 <div class="metric-panel">
                     <div class="metric-info">
-                        <span class="metric-title">법무 검토 및 엔터프라이즈 승인 주기</span>
-                        <span class="metric-desc">조항 분석, 컴플라이언스 일치 여부 확인 및 최종 운영 환경 도입 승인까지 소요되는 기간</span>
+                        <span class="metric-title">04 / 법무 검토 및 엔터프라이즈 심사 주기</span>
+                        <span class="metric-desc">조항의 법적 해석, 컴플라이언스 유효성 확인 및 최종 상용 배포 승인까지 소요되는 기간</span>
                     </div>
                     <div class="compare-list">
                         <div class="compare-item">
-                            <span class="item-name">GNU GPL v3 (상호호환성 정밀 분석)</span>
+                            <span class="item-name">GNU GPL v3 (상호호환성 및 독소조항 정밀 분석)</span>
                             <div class="bar-wrapper"><div class="bar-progress" data-width="95%"></div></div>
                             <span class="item-value">약 14일 이상</span>
                         </div>
                         <div class="compare-item">
-                            <span class="item-name">MIT License (조건부 표준 검토)</span>
+                            <span class="item-name">MIT License (조건부 표준 권한 검토)</span>
                             <div class="bar-wrapper"><div class="bar-progress" data-width="20%"></div></div>
                             <span class="item-value">약 2일</span>
                         </div>
                         <div class="compare-item">
-                            <span class="item-name vpl-accent">VPL 1.1 (본 규격 — 구조적 투명성)</span>
+                            <span class="item-name vpl-accent">VPL 1.1 (본 규격 — 구조적 제약 방식)</span>
                             <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
-                            <span class="item-value vpl-accent">0초 (즉시 검증)</span>
+                            <span class="item-value vpl-accent">0초 (즉시 유효)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">05 / 의존성 공급망 보안 취약점 노출 지수</span>
+                        <span class="metric-desc">중첩된 외부 라이브러리 도입 과정에서 보고되는 잠재적 취약점(CVE) 개수</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">일반 오픈소스 프레임워크 (Apache 2.0 기반)</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="80%"></div></div>
+                            <span class="item-value">평균 18건 / 연</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 (본 규격 — 코드 유입 원천 제어)</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0건 (리스크 제로)</span>
                         </div>
                     </div>
                 </div>
@@ -507,9 +543,8 @@
         let mouseX = -1000, mouseY = -1000;
         let currentMouseX = -1000, currentMouseY = -1000;
 
-        // 고대비 수학적 격자 구조 생성
         const dots = [];
-        const spacing = 55; // 격자 간격
+        const spacing = 55;
 
         function initGrid() {
             canvas.width = window.innerWidth;
@@ -531,47 +566,37 @@
             mouseY = e.clientY;
         });
 
-        // 애니메이션 루프 (rAF 패턴)
         function render() {
-            // 마우스 포인터 감속 보간
             currentMouseX += (mouseX - currentMouseX) * 0.08;
             currentMouseY += (mouseY - currentMouseY) * 0.08;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 격자 포인트 및 마우스 반응형 워프 필드 연산
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)'; // 기존 대비 시각적 선명도 증가
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
 
             for (let i = 0; i < dots.length; i++) {
                 let d = dots[i];
-                
-                // 마우스와 노드 간의 거리 계산
                 let dx = currentMouseX - d.baseX;
                 let dy = currentMouseY - d.baseY;
                 let distance = Math.hypot(dx, dy);
                 
-                // 일정한 반응 반경(Radius) 안에서만 물리 법칙 제어
                 let maxDist = 220;
                 if (distance < maxDist) {
                     let force = (maxDist - distance) / maxDist;
-                    // 마우스 좌표 반대 방향으로 밀어내는 워프 효과 구현
                     d.x = d.baseX - dx * force * 0.35;
                     d.y = d.baseY - dy * force * 0.35;
                     ctx.fillStyle = `rgba(56, 189, 248, ${0.25 + force * 0.5})`;
                 } else {
-                    // 복원력 작용
                     d.x += (d.baseX - d.x) * 0.1;
                     d.y += (d.baseY - d.y) * 0.1;
                     ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
                 }
 
-                // 점 드로잉 (가독성 향상을 위해 1.5px 크기 유지)
                 ctx.beginPath();
                 ctx.arc(d.x, d.y, 1.5, 0, Math.PI * 2);
                 ctx.fill();
             }
 
-            // 마우스 스포트라이트 광원 결합
             if (currentMouseX > -500) {
                 const gradient = ctx.createRadialGradient(
                     currentMouseX, currentMouseY, 0,
@@ -589,7 +614,6 @@
         }
         requestAnimationFrame(render);
 
-        // IntersectionObserver 스크롤 제어
         const observerOptions = {
             root: null,
             rootMargin: '0px -10% -10% 0px',
