@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VARIABLE PUBLIC LICENSE (VPL) v1.1</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --surface-low: #09090b;
+            --surface-card: #18181b;
+            --accent: #38bdf8;
+            --accent-rgb: 56, 189, 248;
+            --text-main: #f4f4f5;
+            --text-muted: #a1a1aa;
+            --border: #27272a;
+            --border-glow: rgba(56, 189, 248, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #spotlight-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            margin-bottom: 2rem;
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Scroll Reveal Base */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Bento Grid Specs Section */
+        .specs {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .bento-grid .card:nth-child(1) { grid-column: span 2; }
+        .bento-grid .card:nth-child(2) { grid-column: span 1; }
+        .bento-grid .card:nth-child(3) { grid-column: span 1; }
+        .bento-grid .card:nth-child(4) { grid-column: span 2; }
+
+        .card {
+            background: var(--surface-low);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: border-color 0.4s, background-color 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(var(--accent-rgb), 0.4);
+            background-color: rgba(24, 24, 27, 0.5);
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Benchmark Section */
+        .benchmark {
+            padding: 6rem 0;
+        }
+
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .metric-panel {
+            background: var(--surface-low);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: border-color 0.4s;
+        }
+
+        .metric-panel:hover {
+            border-color: rgba(var(--accent-rgb), 0.3);
+        }
+
+        .metric-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            gap: 2rem;
+        }
+
+        .metric-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .metric-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 50%;
+            text-align: right;
+        }
+
+        .compare-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .compare-item {
+            display: grid;
+            grid-template-columns: 280px 1fr 140px;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .item-name {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .item-name.vpl-accent {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .bar-wrapper {
+            background: #18181b;
+            height: 6px;
+            border-radius: 9999px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bar-progress {
+            height: 100%;
+            background: #3f3f46;
+            width: 0%;
+            border-radius: 9999px;
+            transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .bar-progress.vpl-progress {
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
+        }
+
+        .item-value {
+            font-size: 0.95rem;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-muted);
+        }
+
+        .item-value.vpl-accent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        footer {
+            padding: 6rem 0 4rem;
+            text-align: center;
+            color: #3f3f46;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-grid .card:nth-child(1),
+            .bento-grid .card:nth-child(2),
+            .bento-grid .card:nth-child(3),
+            .bento-grid .card:nth-child(4) { grid-column: span 1; }
+            .hero h1 { font-size: 3.2rem; }
+            .compare-item { grid-template-columns: 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+            .item-value { text-align: left; }
+            .metric-info { flex-direction: column; gap: 0.5rem; }
+            .metric-desc { text-align: left; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+    <canvas id="spotlight-canvas"></canvas>
+
+    <div class="container">
+        <section class="hero">
+            <div class="badge">Architecture Standard</div>
+            <h1>The Zero-Overhead<br>Architecture.</h1>
+            <p>모든 하드웨어와 실행 환경에서 완벽하게 작동합니다. x86이나 ARM 같은 현재의 표준 PC·서버 환경은 물론, 미래의 새로운 컴퓨팅 장치로 전환할 때도 추가적인 이식 비용이 전혀 들지 않습니다.</p>
+        </section>
+
+        <section class="specs">
+            <div class="section-header reveal">
+                <h2 class="section-title">Architectural Core</h2>
+                <p class="section-subtitle">법적 라이선스의 형식을 통해 소프트웨어 아키텍처를 직접 제어합니다.</p>
+            </div>
+            
+            <div class="bento-grid">
+                <div class="card reveal">
+                    <h3>일관된 성능 보장 (Deterministic Output)</h3>
+                    <p>어떠한 예외적인 데이터 유입이나 동적인 상태 변동 조건에서도 런타임의 불안정성을 완벽히 배제하며, 사전에 정의된 불변의 출력 상태를 유지합니다.</p>
+                </div>
+                <div class="card reveal">
+                    <h3>결함 가능성 완전 격리</h3>
+                    <p>외부 패키지 결합에 따른 연쇄 구조 오염을 원천 차단합니다.</p>
+                </div>
+                <div class="card reveal">
+                    <h3>의존성 코스트 제로</h3>
+                    <p>모든 외부 모듈 및 서드파티 라이브러리 인터페이스의 복잡성을 거부합니다.</p>
+                </div>
+                <div class="card reveal">
+                    <h3>제로 디펙트 아키텍처 (Zero Defect Rate)</h3>
+                    <p>내부 가변 인자의 생성을 원천 규제함으로써 현대 소프트웨어 시스템 아키텍처의 고질적인 문제인 런타임 메모리 누수 및 논리적 참조 에러의 발생 가능성을 통계적으로 영(0)으로 제한합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="benchmark">
+            <div class="section-header reveal">
+                <h2 class="section-title">Performance Matrix</h2>
+                <p class="section-subtitle">컴퓨트 엔지니어링, 클라우드 가상화 및 개발 생산성 관점의 다각도 벤치마크</p>
+            </div>
+
+            <div class="dashboard reveal" id="perf-dashboard-trigger">
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">하드웨어 연산 및 메모리 점유율</span>
+                        <span class="metric-desc">프로세스 구동 단계 및 유저 세션 폭증 시 할당되는 런타임 메모리 크기</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">Standard Framework Architecture</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="85%"></div></div>
+                            <span class="item-value">64.2 MB</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 Infrastructure</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0.00 KB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">클라우드 인프라 배포 오버헤드</span>
+                        <span class="metric-desc">가상화 컨테이너 빌드 및 오케스트레이션 구동 시 발생하는 콜드 스타트 지연 시간</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">Microservice Instance Environment</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="70%"></div></div>
+                            <span class="item-value">340 ms</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 Specification</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0.00 ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">시스템 복잡도 및 코드 부채 비율</span>
+                        <span class="metric-desc">제품 라이프사이클 확장에 따라 누적되는 소프트웨어 유지보수 복잡도 지수</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">Legacy Enterprise Architecture</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="90%"></div></div>
+                            <span class="item-value">High Risk (78%)</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 Core</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0.00%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="benchmark">
+            <div class="section-header reveal">
+                <h2 class="section-title">Compliance & Risk Benchmark</h2>
+                <p class="section-subtitle">엔터프라이즈 인프라 환경 도입 시 검토되는 정량적 리스크 분석 결과</p>
+            </div>
+
+            <div class="dashboard reveal" id="compliance-dashboard-trigger">
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">법무 검토 및 엔터프라이즈 승인 주기</span>
+                        <span class="metric-desc">조항 분석, 컴플라이언스 일치 여부 확인 및 최종 운영 환경 도입 승인까지 소요되는 기간</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">GNU GPL v3 (상호호환성 정밀 분석)</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="95%"></div></div>
+                            <span class="item-value">약 14일 이상</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name">MIT License (조건부 표준 검토)</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="20%"></div></div>
+                            <span class="item-value">약 2일</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 (본 규격 — 구조적 투명성)</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0초 (즉시 검증)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-panel">
+                    <div class="metric-info">
+                        <span class="metric-title">의존성 공급망 보안 취약점 발생률</span>
+                        <span class="metric-desc">오픈소스 패키지 중첩 구성 과정에서 보고되는 잠재적 취약점(CVE) 개수</span>
+                    </div>
+                    <div class="compare-list">
+                        <div class="compare-item">
+                            <span class="item-name">일반 오픈소스 아키텍처 (Apache 2.0 기반)</span>
+                            <div class="bar-wrapper"><div class="bar-progress" data-width="80%"></div></div>
+                            <span class="item-value">높음 (평균 18건/연)</span>
+                        </div>
+                        <div class="compare-item">
+                            <span class="item-name vpl-accent">VPL 1.1 (본 규격 — 외부 소스 원천 격리)</span>
+                            <div class="bar-wrapper"><div class="bar-progress vpl-progress" data-width="0%"></div></div>
+                            <span class="item-value vpl-accent">0건 (원천 차단)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 VARIABLE PUBLIC LICENSE v1.1. All absolute rights retained.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 1. requestAnimationFrame 기반 스포트라이트 광원 효과
+        const canvas = document.getElementById('spotlight-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let targetX = -1000, targetY = -1000;
+        let currentX = -1000, currentY = -1000;
+
+        function setCanvasSize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', () => requestAnimationFrame(setCanvasSize));
+        setCanvasSize();
+
+        window.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+
+        function animateSpotlight() {
+            currentX += (targetX - currentX) * 0.05;
+            currentY += (targetY - currentY) * 0.05;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (currentX > -500) {
+                const gradient = ctx.createRadialGradient(
+                    currentX, currentY, 0,
+                    currentX, currentY, 350
+                );
+                gradient.addColorStop(0, 'rgba(56, 189, 248, 0.08)');
+                gradient.addColorStop(0.5, 'rgba(56, 189, 248, 0.02)');
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            requestAnimationFrame(animateSpotlight);
+        }
+        requestAnimationFrame(animateSpotlight);
+
+        // 2. IntersectionObserver 기반 순차 Reveal 및 모든 대시보드 차트 동적 활성화
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px -10% -10% 0px',
+            threshold: 0.05
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transitionDelay = `${index * 0.05}s`;
+                    entry.target.classList.add('active');
+                    
+                    // 성능 매트릭스 또는 컴플라이언스 대시보드가 트리거되면 하위 모든 게이지 작동
+                    if (entry.target.classList.contains('dashboard')) {
+                        const progresses = entry.target.querySelectorAll('.bar-progress');
+                        progresses.forEach(progress => {
+                            progress.style.width = progress.getAttribute('data-width');
+                        });
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .dashboard').forEach(el => {
+            revealObserver.observe(el);
+        });
+    </script>
+</body>
+</html>

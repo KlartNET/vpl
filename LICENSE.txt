@@ -1,0 +1,25 @@
+VARIABLE PUBLIC LICENSE
+
+Version 1.1
+
+Section 1: Restrictions on Code Structure and Composition
+
+1.1 Prohibition of Variables: The Licensee shall not declare, initialize, or utilize any variables within the source code.
+
+1.2 Prohibition of Functions: The Licensee shall not define, invoke, or implement any functions, procedures, subroutines, or methods within the source code.
+
+1.3 Prohibition of Numeric Literals: The source code must not contain any numeric literals, digits, or representations of numerical values.
+
+1.4 Prohibition of Textual Literals: The source code must not contain any textual literals, strings, characters, or alphanumeric symbols.
+
+Section 2: Restrictions on Development Environment
+
+2.1 Prohibition of Computational Devices: The source code shall not be authored, edited, compiled, or processed using any electronic computing device.
+
+2.2 Definition of Computing Device: For the purposes of this License, a "computing device" is defined as any hardware or system containing one or more processing units, including but not limited to Central Processing Units (CPUs) and Graphics Processing Units (GPUs).
+
+Section 3: Functional Determinism and Output Uniformity
+
+3.1 Invariance of Output: The program must exhibit strict functional determinism, ensuring that the execution output remains identical across all inputs.
+
+3.2 Uniform Output Requirement: Irrespective of the input provided during execution, the resulting output must be constant. For the avoidance of doubt, if an input of 1 produces a specific output, any other input (e.g., 2) must produce the exact same output. Variance in execution results based on input modification is strictly prohibited.
